@@ -1,9 +1,6 @@
 # Overview
 This is a set of examples that showcase how the Cover libraries can be used together to construct several variations of controlling garage doors.
 
-
-arduino library is designed to monitor 2 switches (Up and Down) for a blind or a rolling door. The library will track the state of the cover by monitoring these two switches.
-
 ## Dependencies
 These set of examples depend on the follwing libraries being installed:
 * Robots Big Data Libraries http://robotsbigdata.com/index.html
@@ -17,7 +14,7 @@ You must install the dependent libraries before you compile the examples.
 
 ## Examples
 ### MQTT Single Garage
-This example uses the cover libraries to control a single door garage all on one ESP8266.  See [ReadMe](examples/MQTTSingleGarage/readme.md) for more details.
+This example uses the cover libraries to control a single garage door all on one ESP8266.  See [ReadMe](examples/MQTTSingleGarage/readme.md) for more details.
 
 ### MQTT Double Garage
 This example uses the cover libraries to control 2 garage doors all on one ESP8266.  TODO

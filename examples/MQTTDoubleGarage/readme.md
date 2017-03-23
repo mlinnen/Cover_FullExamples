@@ -23,4 +23,4 @@ If you have a broker on your network that is password protected then use the tes
 
 Once the broker and the audit are running you can go ahead and download the example code to the arduino and let it run.
 
-Closing the up or down switches will change the state of the garage door and it will be published on the MQTT broker.  You can use the batch files located in test/MQTT folder to simulate various MQTT messages (like commands to close the garage door).
+Closing the up or down switches will change the state of either garage door and it will be published onto the MQTT broker.  You can use the batch files located in test/MQTT folder to simulate various MQTT messages (like commands to close either of the garage doors).

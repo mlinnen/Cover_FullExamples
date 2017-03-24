@@ -17,9 +17,9 @@ You must install the dependent libraries before you compile the examples.
 This example uses the cover libraries to control a single garage door all on one ESP8266.  See [ReadMe](examples/MQTTSingleGarage/readme.md) for more details.
 
 ### MQTT Double Garage
-This example uses the cover libraries to control 2 garage doors all on one ESP8266.  TODO
+This example uses the cover libraries to control 2 garage doors all on one ESP8266.  See [ReadMe](examples/MQTTDoubleGarage/readme.md) for more details.
 
-### MQTT Double Garage with multiple ESP8266
-This example uses the cover libraries to control 2 garage doors using multiple ESP8266s.  This is a more practical example because it limits the amount of wiring you need since you use the MQTT broker as a means to command both doors and sense the state of each door.  One ESP8266 is used to fire the relays to control the doors as well as display the state of each door.  Then you use two other ESP8266s closer to the up/down sensors that track the state of each door.  TODO
+### MQTT Double Garage with multiple Controllers
+This example uses the cover libraries to control 2 garage doors using multiple ESP8266s.  This is a more practical example because it limits the amount of wiring you need since you use the MQTT broker as a means to command both doors and sense the state of each door.  One ESP8266 is used to fire the relays to control the doors as well as display the state of each door.  Then you use two other ESP8266s closer to the up/down sensors to track the state of each door.  See [ReadMe](examples/MQTTDoubleGarageMultipleControllers/readme.md) for more details.
 
 

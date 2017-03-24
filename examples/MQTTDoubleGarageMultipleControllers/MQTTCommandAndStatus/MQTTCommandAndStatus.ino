@@ -28,8 +28,6 @@ Cover::GarageDoorRelay* garageActuator;
 Cover::GarageDoorRelay* garage2Actuator;
 Cover::SingleLEDStatus* garageLEDStatus;
 Cover::SingleLEDStatus* garage2LEDStatus;
-Cover::DualSwitchSensor* garageCoverSensor;
-Cover::DualSwitchSensor* garage2CoverSensor;
 
 void callback(char* topic, byte* payload, unsigned int length) {
   Serial.print("Message arrived [");
@@ -168,10 +166,8 @@ void setup() {
   client = new PubSubClient(espClient);
   garageActuator = new Cover::GarageDoorRelay(12,1500);
   garageLEDStatus = new Cover::SingleLEDStatus(15);
-  garageCoverSensor = new Cover::DualSwitchSensor(13, 14);
   garage2Actuator = new Cover::GarageDoorRelay(2,1500);
   garage2LEDStatus = new Cover::SingleLEDStatus(5);
-  garage2CoverSensor = new Cover::DualSwitchSensor(4, 16);
 
   Serial.begin(115200);
   setup_wifi();
@@ -181,10 +177,8 @@ void setup() {
   // Call all components that need to perform setup
   garageActuator->setup();
   garageLEDStatus->setup();
-  garageCoverSensor->setup();
   garage2Actuator->setup();
   garage2LEDStatus->setup();
-  garage2CoverSensor->setup();
 }
 
 void loop() {
@@ -197,42 +191,9 @@ void loop() {
   client->loop();
 
   // Execute the loop function for each component
-  garageCoverSensor->loop();
   garageActuator->loop();
   garageLEDStatus->loop();
-  garage2CoverSensor->loop();
   garage2Actuator->loop();
   garage2LEDStatus->loop();
-
-  // Check if the state changed and publish a message if it has
-  if (garageCoverSensor->getStateChanged())
-  {
-    Cover::State state = garageCoverSensor->getCurrentState();
-    if (state == Cover::StateOpen)
-      client->publish(MQTT_GARAGE_1_STATE_TOPIC, "open");
-    if (state == Cover::StateOpening)
-      client->publish(MQTT_GARAGE_1_STATE_TOPIC, "opening");
-    if (state == Cover::StateClosed)
-      client->publish(MQTT_GARAGE_1_STATE_TOPIC, "closed");
-    if (state == Cover::StateClosing)
-      client->publish(MQTT_GARAGE_1_STATE_TOPIC, "closing");
-    if (state == Cover::StateUnknown)
-      client->publish(MQTT_GARAGE_1_STATE_TOPIC, "unknown");
-  }
-  // Check if the state changed and publish a message if it has
-  if (garage2CoverSensor->getStateChanged())
-  {
-    Cover::State state = garage2CoverSensor->getCurrentState();
-    if (state == Cover::StateOpen)
-      client->publish(MQTT_GARAGE_2_STATE_TOPIC, "open");
-    if (state == Cover::StateOpening)
-      client->publish(MQTT_GARAGE_2_STATE_TOPIC, "opening");
-    if (state == Cover::StateClosed)
-      client->publish(MQTT_GARAGE_2_STATE_TOPIC, "closed");
-    if (state == Cover::StateClosing)
-      client->publish(MQTT_GARAGE_2_STATE_TOPIC, "closing");
-    if (state == Cover::StateUnknown)
-      client->publish(MQTT_GARAGE_2_STATE_TOPIC, "unknown");
-  }
 
 }

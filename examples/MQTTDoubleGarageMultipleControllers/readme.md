@@ -1,3 +1,11 @@
+## Overview
+This is a much more practical example the reduces the amount of wiring you will need to run but will increase the number of arduino controllers you will use.  This example uses 3 ESP8266's that all work together to manage controlling 2 garage doors.  One ESP8266 listens for commands to open or close either door and controls a relay to tell the door to change state.  This same ESP8266 also listens for state changes with either door and controls some LEDs telling the user what state the door is in. Two other ESP8266's monitor each door's state using 2 magnetic sensors on each door.
+
+The following sketches will be used on each ESP8266:
+* MQTTCommandAndStatus - fires a relay to command either door and also displays the state of each door.
+* MQTTSensor1 - monitors two magnetic switches for door 1 and publishes MQTT messages when the state of the door changes.  
+* MQTTSensor2 - monitors two magnetic switches for door 2 and publishes MQTT messages when the state of the door changes.  
+
 #### Configuration
 The example requires you to fill out the Wifi and MQTT details for each sketch before it will compile.
 

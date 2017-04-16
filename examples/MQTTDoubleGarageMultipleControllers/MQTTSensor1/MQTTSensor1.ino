@@ -5,11 +5,16 @@
 #include <Cover_DualSwitchSensor.h>
 #include <Cover_SingleLEDStatus.h>
 #include <Cover_GarageDoorRelay.h>
+#include <Sensor_SimpleDHT11.h>
 #include "ctype.h"
 
 #define MQTT_GARAGE_1_ROOT_TOPIC "/home/garage/1"
 #define MQTT_GARAGE_STATE_TOPIC "/cover/state"
+#define MQTT_TEMP_STATE_TOPIC "/temp/state"
+#define MQTT_HUMID_STATE_TOPIC "/humidity/state"
 #define MQTT_GARAGE_1_STATE_TOPIC MQTT_GARAGE_1_ROOT_TOPIC MQTT_GARAGE_STATE_TOPIC
+#define MQTT_GARAGE_1_TEMP_STATE_TOPIC MQTT_GARAGE_1_ROOT_TOPIC MQTT_TEMP_STATE_TOPIC
+#define MQTT_GARAGE_1_HUMID_STATE_TOPIC MQTT_GARAGE_1_ROOT_TOPIC MQTT_HUMID_STATE_TOPIC
 
 const char* ssid = WLAN_SSID;
 const char* password = WLAN_PASS;
@@ -20,6 +25,10 @@ char message_buff[20];
 WiFiClient espClient;
 PubSubClient* client;
 Cover::DualSwitchSensor* garageCoverSensor;
+Sensor::SensorSimpleDHT11* dht11Sensor;
+
+String temp_str; 
+String hum_str;
 
 void callback(char* topic, byte* payload, unsigned int length) {
   Serial.print("Message arrived [");
@@ -95,6 +104,7 @@ void setup() {
   // put your setup code here, to run once:
   client = new PubSubClient(espClient);
   garageCoverSensor = new Cover::DualSwitchSensor(13, 14);
+  dht11Sensor = new Sensor::SensorSimpleDHT11(2, false, 10);
 
   Serial.begin(115200);
   setup_wifi();
@@ -103,6 +113,7 @@ void setup() {
 
   // Call all components that need to perform setup
   garageCoverSensor->setup();
+  dht11Sensor->setup();
 }
 
 void loop() {
@@ -131,6 +142,19 @@ void loop() {
       client->publish(MQTT_GARAGE_1_STATE_TOPIC, "closing");
     if (state == Cover::StateUnknown)
       client->publish(MQTT_GARAGE_1_STATE_TOPIC, "unknown");
+  }
+
+  if (dht11Sensor->loop())
+  {
+    // We have new sensor values available so publish them
+    temp_str = String(dht11Sensor->getTemperature()); 
+    hum_str = String(dht11Sensor->getHumidity()); 
+    
+    temp_str.toCharArray(message_buff, temp_str.length() + 1); 
+    client->publish(MQTT_GARAGE_1_TEMP_STATE_TOPIC, message_buff);
+
+    hum_str.toCharArray(message_buff, hum_str.length() + 1); 
+    client->publish(MQTT_GARAGE_1_HUMID_STATE_TOPIC, message_buff);
   }
 
 }

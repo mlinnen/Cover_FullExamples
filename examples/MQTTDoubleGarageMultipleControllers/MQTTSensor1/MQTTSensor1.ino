@@ -104,7 +104,7 @@ void setup() {
   // put your setup code here, to run once:
   client = new PubSubClient(espClient);
   garageCoverSensor = new Cover::DualSwitchSensor(13, 14);
-  dht11Sensor = new Sensor::SensorSimpleDHT11(2, false, 10);
+  dht11Sensor = new Sensor::SensorSimpleDHT11(2, false, 60);
 
   Serial.begin(115200);
   setup_wifi();

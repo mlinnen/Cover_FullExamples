@@ -133,15 +133,15 @@ void loop() {
   {
     Cover::State state = garageCoverSensor->getCurrentState();
     if (state == Cover::StateOpen)
-      client->publish(MQTT_GARAGE_1_STATE_TOPIC, "open");
+      client->publish(MQTT_GARAGE_1_STATE_TOPIC, "open", true);
     if (state == Cover::StateOpening)
-      client->publish(MQTT_GARAGE_1_STATE_TOPIC, "opening");
+      client->publish(MQTT_GARAGE_1_STATE_TOPIC, "opening", true);
     if (state == Cover::StateClosed)
-      client->publish(MQTT_GARAGE_1_STATE_TOPIC, "closed");
+      client->publish(MQTT_GARAGE_1_STATE_TOPIC, "closed", true);
     if (state == Cover::StateClosing)
-      client->publish(MQTT_GARAGE_1_STATE_TOPIC, "closing");
+      client->publish(MQTT_GARAGE_1_STATE_TOPIC, "closing", true);
     if (state == Cover::StateUnknown)
-      client->publish(MQTT_GARAGE_1_STATE_TOPIC, "unknown");
+      client->publish(MQTT_GARAGE_1_STATE_TOPIC, "unknown", true);
   }
 
   if (dht11Sensor->loop())
@@ -151,10 +151,10 @@ void loop() {
     hum_str = String(dht11Sensor->getHumidity()); 
     
     temp_str.toCharArray(message_buff, temp_str.length() + 1); 
-    client->publish(MQTT_GARAGE_1_TEMP_STATE_TOPIC, message_buff);
+    client->publish(MQTT_GARAGE_1_TEMP_STATE_TOPIC, message_buff, true);
 
     hum_str.toCharArray(message_buff, hum_str.length() + 1); 
-    client->publish(MQTT_GARAGE_1_HUMID_STATE_TOPIC, message_buff);
+    client->publish(MQTT_GARAGE_1_HUMID_STATE_TOPIC, message_buff, true);
   }
 
 }
